@@ -65,6 +65,7 @@
     "postcss-loader": "^0.8.0"
   },
   "dependencies": {
+    "body-parser": "^1.15.0",
     "core-js": "^2.0.0",
     "cors": "^2.7.1",
     "express": "^4.13.4",

@@ -19,10 +19,22 @@ class AppComponent extends React.Component {
   }
 
   addItem(item) {
-    const newItem = Object.assign({}, item, {id: Date.now()});
-    this.setState({
-      items: [...this.state.items, newItem]
-    });
+    fetch('http://localhost:3001/api/new',
+      {
+        method: 'POST',
+        body: JSON.stringify(item),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(response => response.json())
+      .then(serverItem => {
+        this.setState({
+          items: [...this.state.items, serverItem]
+        })
+      });
+
   }
 
   componentDidMount() {
