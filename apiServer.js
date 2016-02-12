@@ -1,3 +1,5 @@
+'use strict';
+
 var express = require('express');
 var app = express();
 var cors = require('cors');
@@ -7,19 +9,21 @@ app.use(express.static('public'));
 app.use(cors());
 app.use(bodyParser.json());
 
+let data = {
+  items: [
+    {id: 1, title: 'Item 1'},
+    {id: 2, title: 'Item 5'},
+    {id: 3, title: 'Item 3'}
+  ]
+};
+
 app.get('/api/data', function (req, res) {
-  res.json({
-    items: [
-      {id: 1, title: 'Item 1'},
-      {id: 2, title: 'Item 5'},
-      {id: 3, title: 'Item 3'}
-    ]
-  });
+  res.json(data);
 });
 
 app.post('/api/new', function (req, res) {
-  'use strict';
   let newItem = Object.assign({}, req.body, {id: Date.now()});
+  data = Object.assign({}, data, {items: [...data.items, newItem]});
   res.json(newItem);
 });
 
