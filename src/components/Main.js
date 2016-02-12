@@ -19,29 +19,30 @@ class AppComponent extends React.Component {
   }
 
   addItem(item) {
-    fetch('http://localhost:3001/api/new',
-      {
-        method: 'POST',
-        body: JSON.stringify(item),
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        }
-      })
-      .then(response => response.json())
-      .then(serverItem => {
-        this.setState({
-          items: [...this.state.items, serverItem]
-        })
-      });
+    
+    // fetch('http://localhost:3001/api/new',
+    //   {
+    //     method: 'POST',
+    //     body: JSON.stringify(item),
+    //     headers: {
+    //       'Accept': 'application/json',
+    //       'Content-Type': 'application/json'
+    //     }
+    //   })
+    //   .then(response => response.json())
+    //   .then(serverItem => {
+    //     this.setState({
+    //       items: [...this.state.items, serverItem]
+    //     })
+    //   });
 
   }
 
   componentDidMount() {
-    //noinspection JSUnresolvedFunction
-    fetch('http://localhost:3001/api/data')
-      .then(response => response.json())
-      .then(json => this.setState(json));
+    // //noinspection JSUnresolvedFunction
+    // fetch('http://localhost:3001/api/data')
+    //   .then(response => response.json())
+    //   .then(json => this.setState(json));
   }
 
   render() {
