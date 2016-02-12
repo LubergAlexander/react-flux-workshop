@@ -21,6 +21,14 @@ class AppComponent extends React.Component {
     super(props);
 
     this.state = _getAppState();
+    this.addItem = this.addItem.bind(this);
+  }
+
+  addItem(item) {
+    const newItem = Object.assign({}, item, {id: Date.now()});
+    this.setState({
+      items: [...this.state.items, newItem]
+    });
   }
 
   render() {
@@ -29,7 +37,8 @@ class AppComponent extends React.Component {
         <h3>GoPlaces</h3>
         <Search />
         <PlacesItems items={this.state.items}/>
-        <Detail />
+        <Detail addItem={this.addItem}/>
+        <span>{this.state.items.length} Items</span>
       </div>
     );
   }
