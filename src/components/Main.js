@@ -6,6 +6,8 @@ import Search from './SearchComponent';
 import PlacesItems from './PlacesItemsComponent';
 import Detail from './DetailComponent';
 
+import ItemStore from '../flux/ItemStore';
+
 function _getAppState() {
   return {items: []};
 }
@@ -19,7 +21,7 @@ class AppComponent extends React.Component {
   }
 
   addItem(item) {
-    
+
     // fetch('http://localhost:3001/api/new',
     //   {
     //     method: 'POST',
