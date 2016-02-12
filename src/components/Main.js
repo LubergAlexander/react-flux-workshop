@@ -5,11 +5,10 @@ import React from 'react';
 import Search from './SearchComponent';
 import PlacesItems from './PlacesItemsComponent';
 import Detail from './DetailComponent';
-
 import ItemStore from '../flux/ItemStore';
 
 function _getAppState() {
-  return {items: []};
+  return { items: ItemStore.getAll()};
 }
 
 class AppComponent extends React.Component {
@@ -18,6 +17,7 @@ class AppComponent extends React.Component {
 
     this.state = _getAppState();
     this.addItem = this.addItem.bind(this);
+    this.onStoreChange = this.onStoreChange.bind(this);
   }
 
   addItem(item) {
@@ -40,11 +40,13 @@ class AppComponent extends React.Component {
 
   }
 
+  onStoreChange() {
+    console.log('4. In the view');
+    this.setState(_getAppState());
+  }
+
   componentDidMount() {
-    // //noinspection JSUnresolvedFunction
-    // fetch('http://localhost:3001/api/data')
-    //   .then(response => response.json())
-    //   .then(json => this.setState(json));
+    ItemStore.on('change', this.onStoreChange)
   }
 
   render() {
