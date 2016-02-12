@@ -7,13 +7,7 @@ import PlacesItems from './PlacesItemsComponent';
 import Detail from './DetailComponent';
 
 function _getAppState() {
-  return {
-    items: [
-      {id: 1, title: 'Item 1'},
-      {id: 2, title: 'Item 2'},
-      {id: 3, title: 'Item 3'}
-    ]
-  };
+  return {items: []};
 }
 
 class AppComponent extends React.Component {
@@ -29,6 +23,13 @@ class AppComponent extends React.Component {
     this.setState({
       items: [...this.state.items, newItem]
     });
+  }
+
+  componentDidMount() {
+    //noinspection JSUnresolvedFunction
+    fetch('http://localhost:3001/api/data')
+      .then(response => response.json())
+      .then(json => this.setState(json));
   }
 
   render() {
