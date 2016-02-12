@@ -7,7 +7,6 @@
 // import React from 'react/addons';
 // const TestUtils = React.addons.TestUtils;
 import createComponent from 'helpers/shallowRenderHelper';
-
 import Main from 'components/Main';
 
 describe('MainComponent', () => {

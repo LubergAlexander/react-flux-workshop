@@ -1,6 +1,6 @@
 'use strict';
 
-import baseConfig from "./base";
+import baseConfig from './base';
 
 let config = {
   appEnv: 'dev'  // feel free to remove the appEnv property here
