@@ -1,49 +1,42 @@
 'use strict';
+import {createAction} from 'redux-actions';
 
 export const ADD_ITEM = 'ADD_ITEM';
 export const RECEIVE_ITEMS = 'RECEIVE_ITEMS';
 export const SET_FILTER = 'SET_FILTER';
 
-export function getAll() {
-  return (dispatch) => {
-    return fetch('http://localhost:3001/api/data')
-      .then(response => response.json())
-      .then(items => dispatch(receiveItems(items)));
-  };
-}
-
-export function addItem(item) {
-  return (dispatch) => {
-    fetch('http://localhost:3001/api/new',
-      {
-        method: 'POST',
-        body: JSON.stringify(item),
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        }
-      })
-      .then(response => response.json())
-      .then(item => dispatch(receiveOneItem(item)));
-  };
-
-}
-export function receiveItems({items}) {
-  return {
-    type: RECEIVE_ITEMS,
-    items
+function handleErrors(response) {
+  if (!response.ok) {
+    throw Error(response.statusText);
   }
-}
-export function receiveOneItem(item) {
-  return {
-    type: ADD_ITEM,
-    item
-  };
+  return response;
 }
 
-export function setFilter(filter) {
-  return {
-    type: SET_FILTER,
-    filter
-  };
+const getAll = createAction(RECEIVE_ITEMS, () => {
+  return fetch('http://localhost:3002/api/data')
+    .then(handleErrors)
+    .then(response => response.json())
+});
+
+const addItem = createAction(ADD_ITEM, (item) => {
+  return fetch('http://localhost:3002/api/new', {
+    method: 'post',
+    body: JSON.stringify(item),
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }
+  })
+    .then(handleErrors)
+    .then(response => response.json())
+});
+
+const receiveItems = createAction(RECEIVE_ITEMS);
+const setFilter = createAction(SET_FILTER);
+
+export default {
+  getAll,
+  addItem,
+  receiveItems,
+  setFilter
 }

@@ -1,30 +1,28 @@
 'use strict';
 
-require('normalize.css');
-require('styles/App.scss');
-
+import React from 'react';
 import Detail from './DetailComponent';
 import PlacesItems from './PlacesItemsComponent';
-import React from 'react';
 import Search from './SearchComponent';
+
 import {connect} from 'react-redux';
-import getMatchingItems from '../redux/selectors';
-import {getAll, addItem, setFilter} from '../redux/actions';
+import {bindActionCreators} from 'redux';
+
+import getMatchingItems from '../stores/selectors';
+import actions from '../actions/actions';
+
+import 'normalize.css';
+import 'styles/App.scss';
 
 const mapStateToProps = (state) => {
   return {
     filter: state.filter,
-    items: getMatchingItems(state.items, state.filter)
+    items: getMatchingItems(state.items, state.filter),
+    totalItems: state.items.length
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    getAll: () => dispatch(getAll()),
-    addItem: (item) => dispatch(addItem(item)),
-    setFilter: (filter) => dispatch(setFilter(filter))
-  };
-};
+const mapDispatchToProps = (dispatch) => bindActionCreators(actions, dispatch);
 
 class AppComponent extends React.Component {
   componentDidMount() {
@@ -38,6 +36,7 @@ class AppComponent extends React.Component {
         <Search setFilter={this.props.setFilter}/>
         <PlacesItems items={this.props.items}/>
         <Detail addItem={this.props.addItem}/>
+        <span>{this.props.totalItems}</span>
       </div>
     );
   }

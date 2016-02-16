@@ -18,7 +18,7 @@ let data = {
 };
 
 app.get('/api/data', function (req, res) {
-  res.json(data);
+  res.send(data);
 });
 
 app.post('/api/new', function (req, res) {
@@ -27,6 +27,6 @@ app.post('/api/new', function (req, res) {
   res.json(newItem);
 });
 
-app.listen(3001, function () {
-  console.log('Example app listening on port 3001!');
+app.listen(3002, function () {
+  console.log('Example app listening on port 3002!');
 });

@@ -1,8 +1,7 @@
 'use strict';
 
 import React from 'react';
-
-require('styles//Item.scss');
+import 'styles/Item.scss';
 
 class ItemComponent extends React.Component {
   render() {
