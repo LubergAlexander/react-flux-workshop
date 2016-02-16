@@ -1,14 +1,19 @@
 'use strict';
 
 import React from 'react';
+import ItemActions from '../flux/ItemActions';
 
 require('styles//Search.scss');
 
 class SearchComponent extends React.Component {
+  setSearchQuery(event) {
+    ItemActions.setFilter(event.target.value);
+  }
+
   render() {
     return (
       <div className="search-component">
-        Search
+        <input type="text" placeholder="Search" onChange={this.setSearchQuery}/>
       </div>
     );
   }

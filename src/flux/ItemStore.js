@@ -1,22 +1,43 @@
-import {EventEmitter} from 'events';
 import AppDispatcher from './AppDispatcher';
+import {ReduceStore} from 'flux/utils';
 let _items = [];
-class ItemStore extends EventEmitter {
-  constructor(props) {
-    super(props);
+class ItemStore extends ReduceStore {
+  getInitialState() {
+    return {
+      items: [],
+      filter: ''
+    };
+  }
 
-    AppDispatcher.register(action => {
-      console.log('3. Action dispatched');
+  reduce(state, action) {
+    switch (action.type) {
+      case 'RECEIVE_ITEMS':
+        return Object.assign({}, state, {
+          items: action.items
+        });
 
-      switch (action.type) {
-        case 'RECEIVE_ITEMS':
-          _items = action.items;
-          this.emit('change');
-          break;
-        default:
-        // do nothing
-      }
-    });
+      case 'ADD_ITEM':
+        return Object.assign({}, state, {
+          items: [...state.items, action.item]
+        });
+
+      case 'SET_FILTER':
+        return Object.assign({}, state, {
+          filter: action.filter
+        });
+
+      default:
+        return state;
+    }
+  }
+
+  getState() {
+    let {items, filter} = super.getState();
+    return {
+      filter,
+      items: items.filter(item => item.title.match(`^.*${filter}.*$`)),
+      totalItems: items.length
+    }
   }
 
   getAll() {
@@ -25,4 +46,4 @@ class ItemStore extends EventEmitter {
 
 }
 
-export default new ItemStore();
+export default new ItemStore(AppDispatcher);

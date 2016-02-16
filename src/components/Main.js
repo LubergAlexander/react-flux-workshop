@@ -1,52 +1,34 @@
 require('normalize.css');
 require('styles/App.scss');
 
+import Detail from './DetailComponent';
+import ItemActions from '../flux/ItemActions';
+import ItemStore from '../flux/ItemStore';
+import PlacesItems from './PlacesItemsComponent';
 import React from 'react';
 import Search from './SearchComponent';
-import PlacesItems from './PlacesItemsComponent';
-import Detail from './DetailComponent';
-import ItemStore from '../flux/ItemStore';
-
-function _getAppState() {
-  return { items: ItemStore.getAll()};
-}
+import {Container} from 'flux/utils';
 
 class AppComponent extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = _getAppState();
     this.addItem = this.addItem.bind(this);
-    this.onStoreChange = this.onStoreChange.bind(this);
+  }
+
+  static getStores() {
+    return [ItemStore];
+  }
+
+  static calculateState() {
+    return ItemStore.getState()
   }
 
   addItem(item) {
-
-    // fetch('http://localhost:3001/api/new',
-    //   {
-    //     method: 'POST',
-    //     body: JSON.stringify(item),
-    //     headers: {
-    //       'Accept': 'application/json',
-    //       'Content-Type': 'application/json'
-    //     }
-    //   })
-    //   .then(response => response.json())
-    //   .then(serverItem => {
-    //     this.setState({
-    //       items: [...this.state.items, serverItem]
-    //     })
-    //   });
-
-  }
-
-  onStoreChange() {
-    console.log('4. In the view');
-    this.setState(_getAppState());
+    ItemActions.addItem(item);
   }
 
   componentDidMount() {
-    ItemStore.on('change', this.onStoreChange)
+    ItemActions.getAll();
   }
 
   render() {
@@ -56,7 +38,7 @@ class AppComponent extends React.Component {
         <Search />
         <PlacesItems items={this.state.items}/>
         <Detail addItem={this.addItem}/>
-        <span>{this.state.items.length} Items</span>
+        <span>{ItemStore.getState().totalItems} Items</span>
       </div>
     );
   }
@@ -64,4 +46,4 @@ class AppComponent extends React.Component {
 
 AppComponent.defaultProps = {};
 
-export default AppComponent;
+export default Container.create(AppComponent);

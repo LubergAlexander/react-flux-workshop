@@ -8,7 +8,7 @@ const API = {
 
     fetch('http://localhost:3001/api/data')
       .then(response => response.json())
-      .then(json => ItemActions.receiveItems(json))
+      .then(json => ItemActions.receiveItems(json.items))
       .catch(error => console.error('ERROR HAPPENED'));
   },
 
@@ -23,8 +23,9 @@ const API = {
         }
       })
       .then(response => response.json())
-      .then(serverItem => {
-        console.log(serverItem)
+      .then(json => {
+        console.log('calling itemActions with ' + json);
+        ItemActions.receiveOneItem(json)
       })
       .catch(error => console.error('ERROR HAPPENED'));
   }
