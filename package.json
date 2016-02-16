@@ -72,6 +72,8 @@
     "flux": "^2.1.1",
     "normalize.css": "^3.0.3",
     "react": "^0.14.0",
-    "react-dom": "^0.14.0"
+    "react-dom": "^0.14.0",
+    "react-redux": "^4.4.0",
+    "redux": "^3.3.1"
   }
 }
